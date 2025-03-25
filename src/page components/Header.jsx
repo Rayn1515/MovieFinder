@@ -1,9 +1,11 @@
 import { Flex,Heading, Text, VStack,HStack,Avatar, Image,Menu,Portal,Button } from "@chakra-ui/react"
+import logo from "../assets/logo.png"
+import bgimage from "../assets/bgimage.jpg"
 export default function Header()
 {
     return(
-            <HStack position="fixed" top="0" left="0" m="0" backgroundImage="url('src/assets/bgimage.jpg')" bgSize="100% 100%" w="vw" h="75px" justifyContent="space-between">
-                <Image src="src/assets/logo.png" fit="contain" height="50px" ml="30px"></Image>
+            <HStack position="fixed" top="0" left="0" m="0" backgroundImage={"url("+bgimage+")"} bgSize="100% 100%" w="vw" h="75px" justifyContent="space-between">
+                <Image src={logo} fit="contain" height="50px" ml="30px"></Image>
                 <VStack gapY="-1">
                     <Heading margin="0" fontFamily="Lobster" size="4xl" color="blue.700">Movie Finder</Heading>
                     <Text fontWeight="bold" mt="0px" color="blue.900" fontStyle="italic">One Stop Point to Find Movies</Text>

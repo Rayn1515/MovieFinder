@@ -5,4 +5,7 @@ import jsconfigPaths from "vite-jsconfig-paths"
 export default defineConfig({
   plugins: [react(),jsconfigPaths()],
   base: '/movieFinder/',
+  build: {
+    chunkSizeWarningLimit: 1000, // Increase the chunk size limit to 1000 KB (default is 500 KB)
+  },
 })

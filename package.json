@@ -2,7 +2,7 @@
   "name": "moviefinder",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://Rayn1515.github.io/MovieFind/",
+  "homepage": "https://Rayn1515.github.io/MovieFind",
   "type": "module",
   "scripts": {
     "dev": "vite",

@@ -14,9 +14,11 @@ export default function SearchPage({availableGenres,selectedGenres})
     const [value, setValue] = useState("")
     const searchMovie = async () =>          //Search Movies with Queries
     {
-      if (searchTerm.trim() === "")
+      if (searchTerm === "" && selectedGenres.length == 0)
+      {
+        setMovies([])
         return;
-      
+      }
       setLoading(true);
       setError('');
         // const response = await axios.get(apiUrl1 + searchTerm + "&include_adult=false");
@@ -30,8 +32,9 @@ export default function SearchPage({availableGenres,selectedGenres})
       let allMovies = [];
       
       try {
-        for (let page = 1; allMovies.length < 20; page++) {
-          const response = await axios.get(apiUrl1 + searchTerm +"&page="+page);
+        console.log("fetch start")
+        for (let page = 1; allMovies.length < 20 && page<6; page++) {
+          const response = await axios.get(apiUrl1 + searchTerm +"&page="+page+"&include_adult=false");
           const filteredMovies = selectedGenres.length
           ? response.data.results.filter((movie) =>
               movie.genre_ids.some((genreId) => selectedGenres.map(genre => genre.id).includes(genreId))
@@ -41,7 +44,7 @@ export default function SearchPage({availableGenres,selectedGenres})
 
           if (allMovies.length >= 20) break;
         }
-
+      console.log("fetch complete")
       setMovies(allMovies)
 
       } catch(err){
@@ -51,13 +54,17 @@ export default function SearchPage({availableGenres,selectedGenres})
       }
     }
     
-    const searchByFilter= async (genreIds)=>{      //Search Movies with filters ONLY
+    const searchByFilter= async (genreIds)=>{   
+      console.log("just genre")   //Search Movies with filters ONLY
       setLoading(true);
       setError(null);
       try {
+        console.log("fetch start")
         setFilterTerm(genreIds.join(','))
-        const response = await axios.get(apiUrl2+"&with_genre="+filterTerm);
+        console.log(apiUrl2+"&with_genres="+filterTerm)
+        const response = await axios.get(apiUrl2+"&with_genres="+filterTerm);
         setMovies(response.data.results);
+        console.log("fetch end")
       } catch (err) {
         setError('Failed to fetch movies');
         console.error(err);
@@ -67,12 +74,16 @@ export default function SearchPage({availableGenres,selectedGenres})
   }
        
     
-    useEffect(()=>{           //Search bar or filters changed check
-      if (searchTerm) {
+    useEffect(()=>{    
+      console.log("Heya")       //Search bar or filters changed check
+      if (searchTerm.length > 0) {
         searchMovie() 
       } else if (selectedGenres.length > 0) {
         const genreIds = selectedGenres.map(genre => genre.id);
         searchByFilter(genreIds); 
+      }
+      else {
+        setMovies([])
       }
     },[selectedGenres,searchTerm])
 
